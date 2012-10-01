@@ -67,7 +67,7 @@ class Application(Frame):
 					self.lblResult["text"] = "Finsihed. " + str(rownum) + " records written."
 					self.lblResult["fg"] = "#007f3f"
 		except:
-			# Show type error.
+			# Show what is most likely a file path error.
 			self.lblResult["text"] = "Error. Make sure the source file path is correct."
 			self.lblResult["fg"] = "#ef102a"
 			# Do this better.
