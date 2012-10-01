@@ -16,7 +16,7 @@ Included is the setup file I used to create EXE and MSI with [cx_Freeze](http://
 Requirements
 ------------
 
-I tested this with Python 3.2.  As far as I know, it'll work with Python 2.7 if you change `from tkinter import *` to `from Tkinter import *` (difference: capitalization).  Other than that, all you need is a CSV file.
+I tested this with Python 3.2.  As far as I know, it'll work with Python 2.7 if you change `from tkinter import *` to `from Tkinter import *` (difference: capitalization).  You also need the Tkinter library, but I think that comes with Python (at least, it did on Windows).  Other than that, all you need is a CSV file.
 
 Future
 ------
