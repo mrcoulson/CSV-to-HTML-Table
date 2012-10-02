@@ -1,5 +1,12 @@
 from tkinter import *
+from tkinter.filedialog import askopenfilename, asksaveasfilename
+import tkinter.messagebox as box
 import csv
+import os
+
+
+infilename = ""
+outfilename = ""
 
 class Application(Frame):
 
@@ -19,13 +26,10 @@ class Application(Frame):
 				self.lblResult["text"] = "Error. Make sure your columns value is either blank or an integer."
 				self.lblResult["fg"] = "#ef102a"
 				# Do this better.
-		
-		infilename = self.txtInfile.get()
-		outfilename = self.txtOutfile.get()
 
 		try:
-			with open(infilename, "r") as infile:
-				with open(outfilename, "w") as outfile:
+			with open(self.infilename, "r") as infile:
+				with open(self.outfilename, "w") as outfile:
 		
 					# Write some HTML.
 					outfile.write("<!-- START COPYING HTML HERE. -->\n")
@@ -67,39 +71,64 @@ class Application(Frame):
 					self.lblResult["text"] = "Finsihed. " + str(rownum) + " records written."
 					self.lblResult["fg"] = "#007f3f"
 		except:
-			# Show what is most likely a file path error.
-			self.lblResult["text"] = "Error. Make sure the source file path is correct."
+			# Show error.
+			self.lblResult["text"] = "Error.  Make sure your source and destination paths are valid."
+			# self.lblResult["text"] = sys.exc_info()
 			self.lblResult["fg"] = "#ef102a"
 			# Do this better.
 
 	def createWidgets(self):
 
-		self.lblInfile = Label(self, text="Source file:")
-		self.lblInfile.pack()
+		bigFrame = Frame(root, bd=1, relief=RAISED)
 
-		self.txtInfile = Entry(self, width="50", text="newaddressing.csv")
-		self.txtInfile.pack()
+		fileFrame = Frame(bigFrame)
+		# Infile
+		self.btnGetInFile = Button(fileFrame, text="Source", command=self.getInFile, width="10")
+		self.btnGetInFile.pack()
+		self.lblInFilePicked = Label(fileFrame, fg="#1624bc")
+		self.lblInFilePicked.pack()
+		# Outfile
+		self.btnGetOutFile = Button(fileFrame, text="Destination", command=self.getOutFile, width="10")
+		self.btnGetOutFile.pack()
+		self.lblOutFilePicked = Label(fileFrame, fg="#1624bc")
+		self.lblOutFilePicked.pack()
+		fileFrame.pack()
 
-		self.lblOutfile = Label(self, text="Destination file:")
-		self.lblOutfile.pack()
+		columnFrame = Frame(bigFrame)
+		# Columns
+		self.lblColumns = Label(columnFrame, text="Include columns (leave blank for all):")
+		self.lblColumns.pack(side=LEFT)
+		self.txtColumns = Entry(columnFrame, width="10")
+		self.txtColumns.pack(side=LEFT)
+		columnFrame.pack()
 
-		self.txtOutfile = Entry(self, width="50")
-		self.txtOutfile.pack()
-
-		self.lblColumns = Label(self, text="Columns to include (leave blank to include all):")
-		self.lblColumns.pack()
-
-		self.txtColumns = Entry(self, width="50")
-		self.txtColumns.pack()
-
-		self.SUBMIT = Button(self, text="Create", command=self.make_table)
+		createFrame = Frame(bigFrame)
+		# Create
+		self.SUBMIT = Button(createFrame, text="Create", command=self.make_table, width="10")
 		self.SUBMIT.pack()
-
-		self.lblResult = Label(self)
+		self.lblResult = Label(createFrame)
 		self.lblResult.pack()
+		createFrame.pack(pady=20)
 
-	def onError(self):
-		box.showerror("Error", "Bummer.")
+		bigFrame.pack(fill=X, padx=5, pady=5)
+
+		creditsFrame = Frame(root)
+		self.btnCredits = Button(creditsFrame, text="Credits", command=self.show_credits)
+		self.btnCredits.pack()
+		creditsFrame.pack(side=LEFT)
+		
+	def getInFile(self):
+		self.infilename = askopenfilename(filetypes=[("CSV files","*.csv")], title="Choose a souce...")
+		self.infilename = os.path.normpath(self.infilename)
+		self.lblInFilePicked["text"] = "Source: " + self.infilename
+
+	def getOutFile(self):
+		self.outfilename = asksaveasfilename(filetypes=[("HTML files","*.html *.htm")], title="Choose a destination...")
+		self.outfilename = os.path.normpath(self.outfilename)
+		self.lblOutFilePicked["text"] = "Destination: " + self.outfilename
+
+	def show_credits(self):
+		box.showinfo("Information", "Table Writer 0.3.6\n" + chr(169) + " 2012 Frederick County, VA.\nBuilt by Jeremy Coulson.\nhttps://github.com/mrcoulson/CSV-to-HTML-Table.")
 
 	def __init__(self, master=None):
 		Frame.__init__(self, master)
@@ -108,7 +137,8 @@ class Application(Frame):
 
 	
 root = Tk()
-root.minsize(width=350, height=175)
-root.geometry("350x175")
+root.minsize(width=350, height=255)
+root.geometry("350x255")
+root.title("CSV -> HTML Table Writer")
 app = Application(master=root)
 app.mainloop()
