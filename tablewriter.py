@@ -21,10 +21,11 @@ class Application(Frame):
 		else:
 			try:
 				includeColumns = int(self.txtColumns.get())
-			except:
+			except ValueError:
 				# Show type error.
 				self.lblResult["text"] = "Error. Make sure your columns value is either blank or an integer."
 				self.lblResult["fg"] = "#ef102a"
+				raise
 				# Do this better.
 
 		try:
@@ -50,7 +51,7 @@ class Application(Frame):
 							for column in row:
 								colnum += 1
 								if includeColumns > 0:
-									if colnum < includeColumns:
+									if (colnum - 1) < includeColumns:
 										outfile.write("\t\t\t<th>" + column + "</th>\n")
 								else:
 									outfile.write("\t\t\t<th>" + column + "</th>\n")
@@ -64,7 +65,7 @@ class Application(Frame):
 							for column in row:
 								colnum += 1
 								if includeColumns > 0:
-									if colnum < includeColumns:
+									if (colnum - 1) < includeColumns:
 										outfile.write("\t\t\t<td>" + column + "</td>\n")
 								else:
 									outfile.write("\t\t\t<td>" + column + "</td>\n")

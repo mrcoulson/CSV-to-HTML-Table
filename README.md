@@ -4,6 +4,7 @@ CSV to HTML Table
 Latest Changes
 --------------
 
+* 0.4.1: Corrected (hopefully) problem with exception handling.
 * 0.4: Added `<thead>`, `<tbody>`, class, and ID to `<table>`.
 * 0.3.6: Replaced text entries with file dialogs.
 
