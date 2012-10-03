@@ -4,6 +4,7 @@ CSV to HTML Table
 Latest Changes
 --------------
 
+* 0.4: Added `<thead>`, `<tbody>`, class, and ID to `<table>`.
 * 0.3.6: Replaced text entries with file dialogs.
 
 Purpose
@@ -14,7 +15,7 @@ This was born from necessity.  At work, we have lots of data in CSV format that 
 Usage
 -----
 
-Use the buttons to browse to and choose source and destination files.  The "Columns to include" box is specifically for CSVs we get at work that for some reason have extra empty columns.  If this feature is not needed, it can simply be left blank.  Click the "Create" button and the HTML will be written.  You can then copy the HTML and paste it where it needs to go.  My first version of this script is in the "addresswriter.py" script.  That version creates an entire HTML page, but I wanted the GUI version here to be useful for any table needing to go into a page; therefore, this just writes out the table.
+Use the buttons to browse to and choose source and destination files.  Specify a class and ID if necessary.  The "Columns to include" box is specifically for CSVs we get at work that for some reason have extra empty columns.  If this feature is not needed, it can simply be left blank.  Click the "Create" button and the HTML will be written.  You can then copy the HTML and paste it where it needs to go.  My first version of this script is in the "addresswriter.py" script.  That version creates an entire HTML page, but I wanted the GUI version here to be useful for any table needing to go into a page; therefore, this just writes out the table.
 
 Included is the setup file I used to create EXE and MSI with [cx_Freeze](http://cx-freeze.sourceforge.net/) that I can deploy to users at work.
 

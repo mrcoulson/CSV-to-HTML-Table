@@ -11,7 +11,7 @@ if sys.platform == "win32":
     base = "Win32GUI"
 
 setup(  name = "tablewriter",
-        version = "0.3.6",
+        version = "0.4",
         description = "Write HTML tables from CSV files.",
         options = {"build_exe": build_exe_options},
         executables = [Executable("tablewriter.py", base=base)])

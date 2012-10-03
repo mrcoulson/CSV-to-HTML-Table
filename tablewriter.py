@@ -33,37 +33,46 @@ class Application(Frame):
 		
 					# Write some HTML.
 					outfile.write("<!-- START COPYING HTML HERE. -->\n")
-					outfile.write("<table>\n")
+					outfile.write("<table")
+					if len(self.txtClass.get()) > 0:
+						outfile.write(" class=\"" + self.txtClass.get() + "\"")
+					if len(self.txtId.get()) > 0:
+						outfile.write(" id=\"" + self.txtId.get() + "\"")
+					outfile.write(">\n")
 
 					# Loop for table.
 					rownum = 0
 					for row in csv.reader(infile):
 						if rownum == 0: # Write th row.
-							outfile.write("\t<tr>\n")
+							outfile.write("\t<thead>\n")
+							outfile.write("\t\t<tr>\n")
 							colnum = 0
 							for column in row:
 								colnum += 1
 								if includeColumns > 0:
 									if colnum < includeColumns:
-										outfile.write("\t\t<th>" + column + "</th>\n")
+										outfile.write("\t\t\t<th>" + column + "</th>\n")
 								else:
-									outfile.write("\t\t<th>" + column + "</th>\n")
-							outfile.write("\t</tr>\n")
+									outfile.write("\t\t\t<th>" + column + "</th>\n")
+							outfile.write("\t\t</tr>\n")
+							outfile.write("\t</thead>\n")
+							outfile.write("\t<tbody>\n")
 							rownum += 1
 						else: # Write other rows.
-							outfile.write("\t<tr>\n")
+							outfile.write("\t\t<tr>\n")
 							colnum = 0
 							for column in row:
 								colnum += 1
 								if includeColumns > 0:
 									if colnum < includeColumns:
-										outfile.write("\t\t<td>" + column + "</td>\n")
+										outfile.write("\t\t\t<td>" + column + "</td>\n")
 								else:
-									outfile.write("\t\t<td>" + column + "</td>\n")
-							outfile.write("\t</tr>\n")
+									outfile.write("\t\t\t<td>" + column + "</td>\n")
+							outfile.write("\t\t</tr>\n")
 							rownum += 1
 
 					# Finish table.
+					outfile.write("\t</tbody>\n")
 					outfile.write("</table>\n")
 					outfile.write("<!-- STOP COPYING HTML HERE. -->")
 
@@ -97,10 +106,26 @@ class Application(Frame):
 		columnFrame = Frame(bigFrame)
 		# Columns
 		self.lblColumns = Label(columnFrame, text="Include columns (leave blank for all):")
-		self.lblColumns.pack(side=LEFT)
+		self.lblColumns.pack({"side": "left"})
 		self.txtColumns = Entry(columnFrame, width="10")
-		self.txtColumns.pack(side=LEFT)
+		self.txtColumns.pack({"side": "right"})
 		columnFrame.pack()
+
+		classFrame = Frame(bigFrame)
+		# Class
+		self.lblClass = Label(classFrame, text="Table class (leave blank for none):")
+		self.lblClass.pack({"side": "left"})
+		self.txtClass = Entry(classFrame, width="10")
+		self.txtClass.pack({"side": "right"})
+		classFrame.pack()
+
+		idFrame = Frame(bigFrame)
+		# ID
+		self.lblId = Label(idFrame, text="Table ID (leave blank for none):")
+		self.lblId.pack({"side": "left"})
+		self.txtId = Entry(idFrame, width="10")
+		self.txtId.pack({"side": "right"})
+		idFrame.pack()
 
 		createFrame = Frame(bigFrame)
 		# Create
@@ -128,7 +153,7 @@ class Application(Frame):
 		self.lblOutFilePicked["text"] = "Destination: " + self.outfilename
 
 	def show_credits(self):
-		box.showinfo("Information", "Table Writer 0.3.6\n" + chr(169) + " 2012 Frederick County, VA.\nBuilt by Jeremy Coulson.\nhttps://github.com/mrcoulson/CSV-to-HTML-Table.")
+		box.showinfo("Information", "Table Writer 0.4\n" + chr(169) + " 2012 Frederick County, VA.\nBuilt by Jeremy Coulson.\nhttps://github.com/mrcoulson/CSV-to-HTML-Table.")
 
 	def __init__(self, master=None):
 		Frame.__init__(self, master)
@@ -137,8 +162,8 @@ class Application(Frame):
 
 	
 root = Tk()
-root.minsize(width=350, height=255)
-root.geometry("350x255")
+root.minsize(width=350, height=295)
+root.geometry("350x295")
 root.title("CSV -> HTML Table Writer")
 app = Application(master=root)
 app.mainloop()
