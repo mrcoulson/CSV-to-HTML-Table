@@ -89,59 +89,39 @@ class Application(Frame):
 
 	def createWidgets(self):
 
-		bigFrame = Frame(root, bd=1, relief=RAISED)
+		frame = Frame(self, borderwidth=5)
+		frame.grid()
 
-		fileFrame = Frame(bigFrame)
-		# Infile
-		self.btnGetInFile = Button(fileFrame, text="Source", command=self.getInFile, width="10")
-		self.btnGetInFile.pack()
-		self.lblInFilePicked = Label(fileFrame, fg="#1624bc")
-		self.lblInFilePicked.pack()
-		# Outfile
-		self.btnGetOutFile = Button(fileFrame, text="Destination", command=self.getOutFile, width="10")
-		self.btnGetOutFile.pack()
-		self.lblOutFilePicked = Label(fileFrame, fg="#1624bc")
-		self.lblOutFilePicked.pack()
-		fileFrame.pack()
-
-		columnFrame = Frame(bigFrame)
-		# Columns
-		self.lblColumns = Label(columnFrame, text="Include columns (leave blank for all):")
-		self.lblColumns.pack({"side": "left"})
-		self.txtColumns = Entry(columnFrame, width="10")
-		self.txtColumns.pack({"side": "right"})
-		columnFrame.pack()
-
-		classFrame = Frame(bigFrame)
-		# Class
-		self.lblClass = Label(classFrame, text="Table class (leave blank for none):")
-		self.lblClass.pack({"side": "left"})
-		self.txtClass = Entry(classFrame, width="10")
-		self.txtClass.pack({"side": "right"})
-		classFrame.pack()
-
-		idFrame = Frame(bigFrame)
-		# ID
-		self.lblId = Label(idFrame, text="Table ID (leave blank for none):")
-		self.lblId.pack({"side": "left"})
-		self.txtId = Entry(idFrame, width="10")
-		self.txtId.pack({"side": "right"})
-		idFrame.pack()
-
-		createFrame = Frame(bigFrame)
-		# Create
-		self.SUBMIT = Button(createFrame, text="Create", command=self.make_table, width="10")
-		self.SUBMIT.pack()
-		self.lblResult = Label(createFrame)
-		self.lblResult.pack()
-		createFrame.pack(pady=20)
-
-		bigFrame.pack(fill=X, padx=5, pady=5)
-
-		creditsFrame = Frame(root)
-		self.btnCredits = Button(creditsFrame, text="Credits", command=self.show_credits)
-		self.btnCredits.pack()
-		creditsFrame.pack(side=LEFT)
+		self.btnGetInFile = Button(frame, width="10", text="Source", command=self.getInFile)
+		self.btnGetInFile.grid(row=0, columnspan=2)
+		self.lblInFilePicked = Label(frame, fg="#1624bc")
+		self.lblInFilePicked.grid(row=1, columnspan=2)
+		self.btnGetOutFile = Button(frame, width="10", text="Destination", command=self.getOutFile)
+		self.btnGetOutFile.grid(row=2, columnspan=2)
+		self.lblOutFilePicked = Label(frame, fg="#1624bc")
+		self.lblOutFilePicked.grid(row=3, columnspan=2)
+		self.lblColumns = Label(frame, text="Include columns (leave blank for all):")
+		self.lblColumns.grid(row=4, column=0, sticky=E)
+		self.txtColumns = Entry(frame, width="10")
+		self.txtColumns.grid(row=4, column=1)
+		self.lblClass = Label(frame, text="Table class (leave blank for none):")
+		self.lblClass.grid(row=5, column=0, sticky=E)
+		self.txtClass = Entry(frame, width="10")
+		self.txtClass.grid(row=5, column=1)
+		self.lblId = Label(frame, text="Table ID (leave blank for none):")
+		self.lblId.grid(row=6, column=0, sticky=E)
+		self.txtId = Entry(frame, width="10")
+		self.txtId.grid(row=6, column=1)
+		self.lblCreateSpacer = Label(frame)
+		self.lblCreateSpacer.grid(row=7, columnspan=2, pady=3)
+		self.SUBMIT = Button(frame, width="10", text="Create", command=self.make_table)
+		self.SUBMIT.grid(row=8, columnspan=2)
+		self.lblResult = Label(frame)
+		self.lblResult.grid(row=9, columnspan=2)
+		self.lblCreditsSpacer = Label(frame)
+		self.lblCreditsSpacer.grid(row=10, columnspan=2, pady=3)
+		self.btnCredits = Button(frame, width="10", text="Credits", command=self.show_credits)
+		self.btnCredits.grid(row=11, columnspan=2)
 		
 	def getInFile(self):
 		self.infilename = askopenfilename(filetypes=[("CSV files","*.csv")], title="Choose a souce...")
@@ -154,13 +134,12 @@ class Application(Frame):
 		self.lblOutFilePicked["text"] = "Destination: " + self.outfilename
 
 	def show_credits(self):
-		box.showinfo("Information", "Table Writer 0.4\n" + chr(169) + " 2012 Frederick County, VA.\nBuilt by Jeremy Coulson.\nhttps://github.com/mrcoulson/CSV-to-HTML-Table.")
+		box.showinfo("Information", "Table Writer 0.4.2\n" + chr(169) + " 2012 Frederick County, VA.\nBuilt by Jeremy Coulson.\nhttps://github.com/mrcoulson/CSV-to-HTML-Table.")
 
 	def __init__(self, master=None):
 		Frame.__init__(self, master)
 		self.pack()
 		self.createWidgets()
-
 	
 root = Tk()
 root.minsize(width=350, height=295)
